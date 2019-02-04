@@ -40,7 +40,27 @@ app.post('/tasks', function(request, response) {
   const toDo = request.body.toDo;
 
  const someJson = {
-   message: 'You Created a Task' + toDo,
+   message: 'You Created a Task'
+ };
+ response.json(someJson);
+});
+
+app.put('/tasks', function(request, response) {
+
+  const toChange = request.body.toChange;
+
+ const someJson = {
+   message: 'You Updated a Task'
+ };
+ response.json(someJson);
+});
+
+app.delete('/tasks', function(request, response) {
+
+  const toDelete = request.body.toDelete;
+
+ const someJson = {
+   message: 'You Deleted a Task'
  };
  response.json(someJson);
 });
