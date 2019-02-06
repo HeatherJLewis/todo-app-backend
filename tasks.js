@@ -37,7 +37,7 @@ app.get('/tasks', function (request, response) {
 
 app.post('/tasks', function(request, response) {
 
-  const toDo = request.body.toDo;
+  // const toDo = request.body.toDo;
 
  const someJson = {
    message: 'You Created a Task'
@@ -45,24 +45,32 @@ app.post('/tasks', function(request, response) {
  response.json(someJson);
 });
 
-app.put('/tasks', function(request, response) {
+app.put('/tasks/:taskId', function(request, response) {
 
-  const toChange = request.body.toChange;
+  // const toChange = request.body.taskId;
 
  const someJson = {
-   message: 'You Updated a Task'
+   message: 'You Updated Task ' + toChange
  };
  response.json(someJson);
 });
 
-app.delete('/tasks', function(request, response) {
+app.delete('/tasks/:taskId', function(request, response) {
 
-  const toDelete = request.body.toDelete;
+  const toDelete = request.params.taskId;
 
- const someJson = {
-   message: 'You Deleted a Task'
+ let someResponse = {
+   message: 'You Deleted Task Number ' + toDelete
  };
- response.json(someJson);
+
+ if (toDelete > 3) {
+   response.status(404);
+   someResponse = {
+     message: 'There is no task number ' + toDelete
+   };
+ }
+
+ response.json(someResponse);
 });
 
 module.exports.handler = serverless(app);
