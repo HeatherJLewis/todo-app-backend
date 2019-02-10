@@ -23,7 +23,9 @@ app.get('/tasks', function (request, response) {
 app.post('/tasks', function(request, response) {
 
   const taskDescription = request.body.taskDescription;
-  databaseService.saveTask(taskDescription)
+  const userId = request.body.userId;
+
+  databaseService.saveTask(taskDescription, userId)
   .then(function(results) {
     response.json(results);
 })
@@ -45,20 +47,32 @@ app.put('/tasks/:taskId', function(request, response) {
 
 app.delete('/tasks/:taskId', function(request, response) {
 
-  const toDelete = request.params.taskId;
+    const taskId = request.body.taskId;
 
- let someResponse = {
-   message: 'You Deleted Task Number ' + toDelete
- };
+    databaseService.deleteTask(taskId)
+    .then(function(results) {
+      response.json(results);
+    })
+    .catch(function(error) {
+      response.status(500);
+      response.json(error);
+    });
+  })
 
- if (toDelete > 3) {
-   response.status(404);
-   someResponse = {
-     message: 'There is no task number ' + toDelete
-   };
- }
+//   const toDelete = request.body.taskId;
 
- response.json(someResponse);
-});
+//  let someResponse = {
+//    message: 'You Deleted Task Number ' + toDelete
+//  };
+
+//  if (toDelete > 3) {
+//    response.status(404);
+//    someResponse = {
+//      message: 'There is no task number ' + toDelete
+//    };
+//  }
+
+//  response.json(someResponse);
+// });
 
 module.exports.handler = serverless(app);

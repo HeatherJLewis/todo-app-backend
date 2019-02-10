@@ -25,8 +25,8 @@ function getDatabaseConnection() {
         });
     });
  }
-
- function saveTask(taskDescription) {
+//saveTask can now save task to a specific user
+ function saveTask(taskDescription, userId) {
     const connection = getDatabaseConnection();
 
     return new Promise(function(resolve, reject) {
@@ -34,7 +34,8 @@ function getDatabaseConnection() {
         const postData  = {
             taskDescription: taskDescription, 
             taskCompleted: false,
-            userId: 1};
+            userId: userId
+        };
 
         connection.query('INSERT INTO Tasks SET ?', postData, function (error, results, fields) {
             if (error) {
@@ -45,12 +46,30 @@ function getDatabaseConnection() {
                 connection.end();
                 return resolve(results);
             }
+        });
     });
- });
+ }
+    function deleteTask(taskId) {
+        const connection = getDatabaseConnection();
 
+        return new Promise(function(resolve, reject) {
+            
+        connection.query('DELETE FROM Tasks WHERE taskId = ?', taskId, function (error, results, fields) {
+            if (error) {
+                connection.destroy();
+                 return reject(error);
+            }
+            else {
+                connection.end();
+                 return resolve(results);
+            }
+        })
+    });
+}
  module.exports = {
      getTasks,
-     saveTask
+     saveTask,
+     deleteTask
  }
 
 //  SELECT Username, Description
