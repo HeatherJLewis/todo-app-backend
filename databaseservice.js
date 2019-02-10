@@ -49,6 +49,31 @@ function getDatabaseConnection() {
         });
     });
  }
+
+    function updateTask(taskId) {
+        const connection = getDatabaseConnection();
+
+        return new Promise(function(resolve, reject) {
+            // const taskId = 1;
+            // const updateData  = {
+            //     // taskDescription: taskDescription, 
+            //     taskCompleted: true,
+            //     // userId: userId
+            // };
+
+        connection.query('UPDATE Tasks SET taskCompleted = true WHERE taskId = ?', taskId, function (error, results, fields) {
+            if (error) {
+                connection.destroy();
+                    return reject(error);
+                }
+                else {
+                    connection.end();
+                      return resolve(results);
+                }
+            })
+        });    
+    }
+
     function deleteTask(taskId) {
         const connection = getDatabaseConnection();
 
@@ -69,6 +94,7 @@ function getDatabaseConnection() {
  module.exports = {
      getTasks,
      saveTask,
+     updateTask,
      deleteTask
  }
 
