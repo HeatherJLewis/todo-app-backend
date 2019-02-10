@@ -50,18 +50,14 @@ function getDatabaseConnection() {
     });
  }
 
-    function updateTask(taskId) {
+    function updateTask(taskDescription, taskCompleted, taskId) {
         const connection = getDatabaseConnection();
 
         return new Promise(function(resolve, reject) {
-            // const taskId = 1;
-            // const updateData  = {
-            //     // taskDescription: taskDescription, 
-            //     taskCompleted: true,
-            //     // userId: userId
-            // };
+            const sql = 'UPDATE Tasks SET taskDescription = ?, taskCompleted = ? WHERE taskId = ?';
+            let data = [taskDescription, taskCompleted, taskId];
 
-        connection.query('UPDATE Tasks SET taskCompleted = true WHERE taskId = ?', taskId, function (error, results, fields) {
+        connection.query(sql, data, function (error, results, fields) {
             if (error) {
                 connection.destroy();
                     return reject(error);

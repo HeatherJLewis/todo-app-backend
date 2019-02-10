@@ -36,11 +36,12 @@ app.post('/tasks', function(request, response) {
 })
 
 app.put('/tasks/:taskId', function(request, response) {
-
-  // const toChange = request.params.taskId;
-  const taskId = request.body.taskId;
   
-  databaseService.updateTask(taskId)
+  const taskDescription = request.body.taskDescription;
+  const taskCompleted = request.body.taskCompleted;
+  const taskId = request.body.taskId;  
+
+  databaseService.updateTask(taskDescription, taskCompleted, taskId)
     .then(function(results) {
       response.json(results);
     })
@@ -49,11 +50,6 @@ app.put('/tasks/:taskId', function(request, response) {
       response.json(error);
     });
   })
-//  const someJson = {
-//    message: 'You Updated Task ' + toChange
-//  };
-//  response.json(someJson);
-// });
 
 app.delete('/tasks/:taskId', function(request, response) {
 
