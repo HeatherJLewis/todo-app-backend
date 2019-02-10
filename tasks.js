@@ -1,53 +1,41 @@
 const serverless = require('serverless-http');
 const express = require('express');
-// const bodyParser = require('body-parser');
 const app = express();
+app.use(express.json());
 
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.urlencoded())
+const databaseService = require('./databaseservice');
 
 app.get('/tasks', function (request, response) {
 
- const username = request.query.username;
-//  const tasks = request.query.tasks;
-//Takes in 2 parameters to print "Heather You need to feed the animals" where tasks is the name of the task list to be accessed ie 'feed_the_animals'
-//https://278nggy6rg.execute-api.eu-west-2.amazonaws.com/dev/tasks?tasks=feed_the_animals&username=Heather
+  databaseService.getTasks()
+    .then(function(tasks) {
+//we got the tasks ok
+      response.json(tasks);
+  })
+    .catch(function(error) {
+//something went wrong when getting the tasks
+      response.status(500);
+      response.json(error);
+    });
+ })
 
-
- const taskList = {
-  message: username + " You have stuff to do!", 
-  tasksToDoList: [{
-    id: 1,
-    description: 'Feed Llama',
-    completed: false
-  },
-  {  id: 2,
-    description: 'Feed Tiger',
-    completed: false
-  },
-  {
-    id: 3,
-    description: 'Feed Chinchilla',
-    completed: false
-  }]
- };
-
- response.json(taskList);
-});
 
 app.post('/tasks', function(request, response) {
 
-  // const toDo = request.body.toDo;
-
- const someJson = {
-   message: 'You Created a Task'
- };
- response.json(someJson);
-});
+  const taskDescription = request.body.taskDescription;
+  databaseService.saveTask(taskDescription)
+  .then(function(results) {
+    response.json(results);
+})
+  .catch(function(error) {
+    response.status(500);
+    response.json(error);
+  });
+})
 
 app.put('/tasks/:taskId', function(request, response) {
 
-  // const toChange = request.body.taskId;
+  const toChange = request.params.taskId;
 
  const someJson = {
    message: 'You Updated Task ' + toChange
