@@ -38,10 +38,10 @@ app.post('/tasks', function(request, response) {
 app.put('/tasks/:taskId', function(request, response) {
   
   const taskDescription = request.body.taskDescription;
-  const taskCompleted = request.body.taskCompleted;
+  // const taskCompleted = request.body.taskCompleted;
   const taskId = request.body.taskId;  
 
-  databaseService.updateTask(taskDescription, taskCompleted, taskId)
+  databaseService.updateTask(taskDescription, taskId)
     .then(function(results) {
       response.json(results);
     })
