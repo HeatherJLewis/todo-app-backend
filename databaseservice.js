@@ -27,6 +27,23 @@ function getDatabaseConnection() {
         });
     });
  }
+ function getTasksToDo() {
+    const connection = getDatabaseConnection();
+    return new Promise(function(resolve, reject) {
+        connection.query("SELECT COUNT(*)FROM Tasks WHERE taskCompleted = 0;", function(error, results, fields) {
+            if (error) {
+                connection.destroy();
+                return reject(error);
+            }
+            else {
+                connection.end( function () {
+                return resolve(results);
+                });
+                  
+            }
+        });
+    });
+ }
 //saveTask can now save task to a specific user
  function saveTask(taskDescription) {
     const connection = getDatabaseConnection();
@@ -99,7 +116,8 @@ function getDatabaseConnection() {
      getTasks,
      saveTask,
      updateTask,
-     deleteTask
+     deleteTask,
+     getTasksToDo
  }
 
 //  SELECT Username, Description
