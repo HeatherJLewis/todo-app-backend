@@ -54,12 +54,12 @@ function getDatabaseConnection() {
     });
  }
 
-    function updateTask(taskDescription, taskId) {
+    function updateTask(taskId) {
         const connection = getDatabaseConnection();
 
         return new Promise(function(resolve, reject) {
-            const sql = 'UPDATE Tasks SET taskDescription = ?, taskCompleted = NOT taskCompleted WHERE taskId = ?';
-            let data = [taskDescription, taskId];
+            const sql = 'UPDATE Tasks SET taskCompleted = NOT taskCompleted WHERE taskId = ?';
+            let data = [taskId];
 
         connection.query(sql, data, function (error, results, fields) {
             if (error) {
