@@ -19,8 +19,10 @@ function getDatabaseConnection() {
                 return reject(error);
             }
             else {
-                connection.end();
+                connection.end( function () {
                 return resolve(results);
+                });
+                  
             }
         });
     });
@@ -43,8 +45,10 @@ function getDatabaseConnection() {
                 return reject(error);
             }
             else {
-                connection.end();
+                connection.end( function () {
                 return resolve(results);
+                });
+                  
             }
         });
     });
@@ -63,8 +67,10 @@ function getDatabaseConnection() {
                     return reject(error);
                 }
                 else {
-                    connection.end();
-                      return resolve(results);
+                    connection.end( function () {
+                    return resolve(results);
+                    });
+                      
                 }
             })
         });    
@@ -81,8 +87,10 @@ function getDatabaseConnection() {
                  return reject(error);
             }
             else {
-                connection.end();
-                 return resolve(results);
+                connection.end( function () {
+                return resolve(results);
+                });
+                  
             }
         })
     });
