@@ -26,9 +26,9 @@ app.get('/tasks', function (request, response) {
 app.post('/tasks', function(request, response) {
 
   const taskDescription = request.body.taskDescription;
-  const userId = request.body.userId;
+  // const userId = request.body.userId;
 
-  databaseService.saveTask(taskDescription, userId)
+  databaseService.saveTask(taskDescription)
   .then(function(results) {
     response.json(results);
 })

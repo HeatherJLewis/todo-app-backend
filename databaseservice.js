@@ -28,7 +28,7 @@ function getDatabaseConnection() {
     });
  }
 //saveTask can now save task to a specific user
- function saveTask(taskDescription, userId) {
+ function saveTask(taskDescription) {
     const connection = getDatabaseConnection();
 
     return new Promise(function(resolve, reject) {
@@ -36,7 +36,7 @@ function getDatabaseConnection() {
         const postData  = {
             taskDescription: taskDescription, 
             taskCompleted: false,
-            userId: userId
+            // userId: userId
         };
 
         connection.query('INSERT INTO Tasks SET ?', postData, function (error, results, fields) {
